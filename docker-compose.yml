@@ -1,0 +1,25 @@
+version: '3'
+services:
+  rabbitmq:
+    image: rabbitmq:3.12
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+  mongo:
+    image: mongo:7.0
+    ports:
+      - "27017:27017"
+  open_router:
+    image: open_router_image
+    ports:
+      - "8080:8080"
+      - "9001:9001"
+  fastapi:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"
+    depends_on:
+      - rabbitmq
+      - mongo
