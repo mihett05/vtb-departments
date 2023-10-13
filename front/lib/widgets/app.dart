@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:front/pages/form-page.dart';
-import 'package:front/pages/map-page.dart';
-import 'package:front/pages/path-page.dart';
-import 'package:front/pages/path-select-page.dart';
+import 'package:front/pages/form_page.dart';
+import 'package:front/pages/map_page.dart';
+import 'package:front/pages/path_page.dart';
+import 'package:front/pages/path_select_page.dart';
 
 class App extends StatelessWidget {
   const App({super.key});
