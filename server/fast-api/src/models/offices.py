@@ -1,5 +1,8 @@
-from beanie import Document
+import uuid
+
+from beanie import Document, Indexed
 from pydantic import BaseModel
+from geo_json import GeoJSON
 
 
 class TimeOpen(BaseModel):
@@ -7,13 +10,21 @@ class TimeOpen(BaseModel):
     hours: str
 
 
+class Statistics(BaseModel):
+    time: TimeOpen
+    percent: float
+
+
 class OfficeInfo(Document):
+    token: Indexed(uuid.UUID)
     sale_point_name: str
     address: str
     rko: str
     open_office: bool
     has_suo: bool
     has_ramp: bool
-    metroStation: str
-    openHours: list[TimeOpen]
-    openHoursIndividual: list[TimeOpen]
+    metro_station: str
+    open_hours_legal: list[TimeOpen]
+    open_hours_individual: list[TimeOpen]
+    coordinates: GeoJSON
+    statistics: list[Statistics]
