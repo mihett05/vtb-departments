@@ -1,6 +1,6 @@
 from beanie import Document
 from pydantic import BaseModel
-from geo_json import GeoJSON
+from models.geo_json import GeoJSON
 
 
 class ServiceStatus(BaseModel):
@@ -13,8 +13,8 @@ class Service(BaseModel):
     service_status: ServiceStatus
 
 
-class OfficeInfo(Document):
+class AtmsInfo(Document):
     address: str
-    allDay: bool
+    all_day: bool
     services: list[Service]
     coordinates: GeoJSON

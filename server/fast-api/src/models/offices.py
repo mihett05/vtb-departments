@@ -2,7 +2,7 @@ import uuid
 
 from beanie import Document, Indexed
 from pydantic import BaseModel
-from geo_json import GeoJSON
+from models.geo_json import GeoJSON
 
 
 class TimeOpen(BaseModel):
@@ -16,7 +16,7 @@ class Statistics(BaseModel):
 
 
 class OfficeInfo(Document):
-    token: Indexed(uuid.UUID)
+    token: uuid.UUID
     sale_point_name: str
     address: str
     rko: str

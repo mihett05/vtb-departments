@@ -17,5 +17,7 @@ COPY . .
 RUN useradd -m myuser
 USER myuser
 
+WORKDIR /app/src
+
 # Run the application
-ENTRYPOINT ["python", "-m", "src"]
+ENTRYPOINT ["python", "__main__.py"]
