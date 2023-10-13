@@ -9,17 +9,17 @@ services:
     image: mongo:7.0
     ports:
       - "27017:27017"
-  open_router:
-    image: open_router_image
-    ports:
-      - "8080:8080"
-      - "9001:9001"
-  fastapi:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    ports:
-      - "80:80"
-    depends_on:
-      - rabbitmq
-      - mongo
+#  open_router:
+#    image: open_router_image
+#    ports:
+#      - "8080:8080"
+#      - "9001:9001"
+#  fastapi:
+#    build:
+#      context: .
+#      dockerfile: Dockerfile
+#    ports:
+#      - "80:80"
+#    depends_on:
+#      - rabbitmq
+#      - mongo

@@ -1,6 +1,6 @@
-from beanie import Document
+from beanie import Document, Indexed
 from pydantic import BaseModel
-from models.geo_json import GeoJSON
+from schemes.geo_json import GeoJSON
 
 
 class ServiceStatus(BaseModel):
@@ -14,7 +14,7 @@ class Service(BaseModel):
 
 
 class AtmsInfo(Document):
-    address: str
+    address: Indexed(str, unique=True)
     all_day: bool
     services: list[Service]
     coordinates: GeoJSON
