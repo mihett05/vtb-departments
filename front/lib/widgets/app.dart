@@ -30,6 +30,7 @@ class App extends StatelessWidget {
           titleLarge: TextStyle(
               fontFamily: 'VTB', fontSize: 22, fontWeight: FontWeight.bold),
           bodyLarge: TextStyle(fontFamily: 'VTB', fontSize: 16),
+          bodyMedium: TextStyle(fontFamily: 'VTB', fontSize: 14),
           labelLarge: TextStyle(
               fontFamily: 'VTB',
               fontSize: 14,

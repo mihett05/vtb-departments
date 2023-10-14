@@ -9,7 +9,6 @@ class FormPage extends StatefulWidget {
 }
 
 class _FormPageState extends State<FormPage> {
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -43,7 +42,6 @@ class _FormPageState extends State<FormPage> {
           ),
         ),
       ),
-
       body: const ClientForm(),
     );
   }
