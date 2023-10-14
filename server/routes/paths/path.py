@@ -31,7 +31,10 @@ async def get_path(body: Path):
 
 @router.post("/get_offices")
 async def get_offices(body: FilteredPath):
-    offices = [Office(**office.model_dump()) for office in await OfficeInfo.find(fetch_links=True).to_list()]
+    offices = [Office(**office.model_dump()) for office in await OfficeInfo.find(
+        {"coordinates.coordinates": {"$geoWithin": {"$centerSphere": [body.geo_json.coordinates, 60 / 6378.1]}}},
+        fetch_links=True
+    ).to_list()]
     if body.has_ramp:
         offices = [office for office in offices if office.has_ramp]
     offices = sorted(offices, key=lambda x: x.coordinates - body.geo_json)[:10]
@@ -64,7 +67,7 @@ async def get_offices(body: FilteredPath):
         if len(hours_stats) == 0:
             arrival_load.append(-1)
             continue
-        avg_load = sum(map(itemgetter("meta"), hours_stats)) / len(hours_stats)
+        avg_load = sum(map(itemgetter("load"), hours_stats)) / len(hours_stats)
         arrival_load.append(avg_load)
 
     return {

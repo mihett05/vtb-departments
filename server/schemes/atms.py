@@ -1,3 +1,4 @@
+import pymongo
 from beanie import Document, Indexed
 from pydantic import BaseModel
 from schemes.geo_json import GeoJSON
@@ -18,3 +19,8 @@ class AtmsInfo(Document):
     all_day: bool
     services: list[Service]
     coordinates: GeoJSON
+
+    class Settings:
+        indexes = [
+            [("coordinates", pymongo.GEOSPHERE)],  # GEO index
+        ]

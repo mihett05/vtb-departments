@@ -1,6 +1,7 @@
 import uuid
 from datetime import datetime
 
+import pymongo
 from beanie import Document, Indexed, TimeSeriesConfig, Granularity, Link
 from pydantic import BaseModel, Field
 from schemes.geo_json import GeoJSON
@@ -13,14 +14,14 @@ class TimeOpen(BaseModel):
 
 class Statistics(Document):
     time_series: datetime = Field(default_factory=datetime.now)
-    meta: float
+    load: float
 
     class Settings:
         timeseries = TimeSeriesConfig(
             time_field='time_series',
-            meta_field='meta',
+            meta_field='load',
             granularity=Granularity.minutes,
-            expire_after_seconds=60 * 60 * 24 * 30
+            expire_after_seconds=60 * 60 * 24 * 7
         )
 
 
@@ -38,3 +39,9 @@ class OfficeInfo(Document):
     coordinates: GeoJSON
     statistics: list[Link[Statistics]]
     max_capacity: int
+
+    class Settings:
+        indexes = [
+            [("coordinates", pymongo.GEOSPHERE)],  # GEO index
+        ]
+

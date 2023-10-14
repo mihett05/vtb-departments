@@ -1,9 +1,20 @@
-from beanie import Link
+import random
 
 from schemes import Statistics
 
+from datetime import datetime, timedelta
+
 
 async def create_initial_stats_office() -> list[Statistics]:
-    statistic = Statistics(meta=0.5)
-    await statistic.create()
-    return [statistic]
+    stats = []
+    start_date = datetime.now() - timedelta(days=14)
+    start_date.replace(hour=0)
+
+    for day in range(7):
+        for hour in range(3):
+            cur_date = start_date + timedelta(days=day, hours=hour)
+            statistic = Statistics(time_series=cur_date, load=random.random())
+            await statistic.create()
+            stats.append(statistic)
+
+    return stats

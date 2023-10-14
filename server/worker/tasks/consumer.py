@@ -11,7 +11,7 @@ from worker.worker import Worker
 class Consumer(Amqp):
     async def handle(self, office: OfficeInfo, images: list[bytes]):
         average_count = sum(map(Worker.get_people_count, images)) / len(images)
-        statistics = Statistics(meta=average_count / office.max_capacity)
+        statistics = Statistics(load=average_count / office.max_capacity)
         await statistics.create()
         office.statistics.append(statistics)
 
