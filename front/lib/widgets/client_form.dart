@@ -256,14 +256,14 @@ class _ClientFormState extends State<ClientForm> {
                         ),
                         const SizedBox(width: 7.0),
                         Text(
-                          'Доступно для маломобильных граждан',
+                          'Доступная среда',
                           style: Theme.of(context)
                               .textTheme
                               .bodyLarge!
                               .copyWith(
-                                  color: Theme.of(context)
-                                      .colorScheme
-                                      .onBackground),
+                                color:
+                                    Theme.of(context).colorScheme.onBackground,
+                              ),
                         ),
                         const Spacer(),
                         FlutterSwitch(

@@ -6,6 +6,7 @@ import 'package:front/pages/path_select_page.dart';
 
 class App extends StatelessWidget {
   const App({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -13,16 +14,16 @@ class App extends StatelessWidget {
       theme: ThemeData(
         colorScheme: const ColorScheme(
           brightness: Brightness.light,
-          primary: Color(0xff00aaff),
+          primary: Color(0xff1e4bd2),
           onPrimary: Colors.white,
           background: Colors.white,
           onBackground: Color(0xff2F3441),
           secondary: Color(0xff0A2896),
           onSecondary: Colors.white,
-          tertiary: Color(0Xff1E4BD2),
+          tertiary: Color(0xff00aaff),
           error: Color(0xffca181f),
           onError: Colors.white,
-          surface: Color(0xff00aaff),
+          surface: Color(0xff1e4bd2),
           onSurface: Colors.white,
           shadow: Color(0xFFDCE0EB),
         ),

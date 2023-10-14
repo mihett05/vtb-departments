@@ -31,8 +31,11 @@ class ZoomButtons extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           Padding(
-            padding:
-                EdgeInsets.only(left: padding, top: padding, right: padding),
+            padding: EdgeInsets.only(
+              left: padding,
+              top: padding,
+              right: padding,
+            ),
             child: FloatingActionButton(
               heroTag: 'zoomInButton',
               mini: mini,
@@ -48,8 +51,10 @@ class ZoomButtons extends StatelessWidget {
                 }
                 MapController.of(context).move(paddedMapCamera.center, zoom);
               },
-              child:
-                  Icon(Icons.add_rounded, color: IconTheme.of(context).color),
+              child: Icon(
+                Icons.add_rounded,
+                color: Theme.of(context).colorScheme.onPrimary,
+              ),
             ),
           ),
           Padding(
@@ -70,8 +75,10 @@ class ZoomButtons extends StatelessWidget {
                 }
                 MapController.of(context).move(paddedMapCamera.center, zoom);
               },
-              child: Icon(Icons.remove_rounded,
-                  color: IconTheme.of(context).color),
+              child: Icon(
+                Icons.remove_rounded,
+                color: Theme.of(context).colorScheme.onPrimary,
+              ),
             ),
           ),
           Padding(
