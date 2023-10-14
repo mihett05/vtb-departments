@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
+import 'package:front/api/client.dart';
 import 'package:front/widgets/zoom_buttons.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:latlong2/latlong.dart';
@@ -22,7 +23,6 @@ class _MapState extends State<Map> {
 
   void loadLocation() async {
     final permission = await Geolocator.checkPermission();
-    print("loadLocation");
     if (permission == LocationPermission.always ||
         permission == LocationPermission.whileInUse) {
       final position = await Geolocator.getLastKnownPosition();
@@ -33,6 +33,7 @@ class _MapState extends State<Map> {
   }
 
   void center() async {
+    getDepartments();
     final permission = await Geolocator.requestPermission();
     if (permission == LocationPermission.always ||
         permission == LocationPermission.whileInUse) {

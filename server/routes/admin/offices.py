@@ -2,7 +2,7 @@ import pymongo.errors
 from fastapi import APIRouter, Depends, status, Response
 from fastapi.exceptions import HTTPException
 from typing import Annotated
-from routes.deps import get_admin, get_office
+from .deps import get_admin, get_office
 
 from models.admin.offices import CreateOffice, UpdateOffice
 from schemes import OfficeInfo, GeoJSON

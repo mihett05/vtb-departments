@@ -3,7 +3,7 @@ from typing import Annotated
 from fastapi import APIRouter, Depends, HTTPException, status, Response
 from schemes import AtmsInfo, GeoJSON
 
-from routes.deps import get_admin, get_atm
+from .deps import get_admin, get_atm
 from models.admin.atms import CreatAtm, UpdateAtm
 
 
