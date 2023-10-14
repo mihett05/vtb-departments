@@ -142,7 +142,15 @@ class _PathPageState extends State<PathPage> {
                                     alignment: Alignment.bottomCenter,
                                     image: AssetImage('assets/car1.png'),
                                     fit: BoxFit.fitWidth)
-                                : null,
+                                : index == 0 &&
+                                        _chosenFilter == 'Расстояние' &&
+                                        workloadToInt(paths[index].workload) > 0
+                                    ? DecorationImage(
+                                        scale: 0.5,
+                                        alignment: Alignment.bottomCenter,
+                                        image: AssetImage('assets/coffee.png'),
+                                        fit: BoxFit.fitWidth)
+                                    : null,
                             color: _chosenIndex == index
                                 ? Theme.of(context).colorScheme.primary
                                 : Theme.of(context).colorScheme.shadow,
@@ -194,12 +202,6 @@ class _PathPageState extends State<PathPage> {
                                             .colorScheme
                                             .onBackground),
                               ),
-                              // if (index == paths.length - 1 &&
-                              //     _chosenFilter == 'Расстояние')
-                              //   Image.asset(
-                              //     'assets/car.png',
-                              //     width: 35,
-                              //   ),
                             ],
                           ),
                         ),
@@ -262,12 +264,6 @@ int workloadComparison(PathToOffice a, PathToOffice b) {
 }
 
 List<PathToOffice> sortPaths(String filter, List<PathToOffice> paths) {
-  /// Desired relation | Result
-  /// -------------------------------------------
-  ///           a < b  | Returns a negative value.
-  ///           a == b | Returns 0.
-  ///           a > b  | Returns a positive value.
-  ///
   if (filter == 'Расстояние') {
     paths.sort(distanceComparison);
   } else if (filter == 'Загруженность') {
