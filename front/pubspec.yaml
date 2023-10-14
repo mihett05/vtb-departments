@@ -68,6 +68,8 @@ flutter:
   assets:
     - assets/icons/gpsSolid.png
     - assets/icons/
+    - assets/car.png
+    - assets/car1.png
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
 

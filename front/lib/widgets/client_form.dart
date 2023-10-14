@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_switch/flutter_switch.dart';
-import 'package:front/models/form-data.dart';
+import 'package:front/models/form_data.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/services.dart';
 
