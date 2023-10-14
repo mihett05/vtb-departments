@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from routes import admin
+from routes.paths import path
 from init_mongo import init_db
 
 app = FastAPI(
@@ -14,3 +15,4 @@ async def start_db():
 
 
 app.include_router(admin.router)
+app.include_router(path.router)

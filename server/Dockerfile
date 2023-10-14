@@ -11,13 +11,11 @@ COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy the rest of the application code
-COPY fast-api .
+COPY . .
 
 # Run the application as a non-root user
 RUN useradd -m myuser
 USER myuser
-
-WORKDIR /app/src
 
 # Run the application
 ENTRYPOINT ["python", "__main__.py"]
