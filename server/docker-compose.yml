@@ -46,7 +46,7 @@ services:
       dockerfile: Dockerfile
     environment:
       - "MONGO_URL=mongodb://mongo:27017/db"
-      - "OPEN_ROUTE_SERVICE_URL=http://ors:8080/ors/v2/directions"
+      - "OPEN_ROUTE_SERVICE_URL=https://api.openrouteservice.org/v2/directions"
       - "RABBITMQ_URL=amqp://guest:guest@rabbitmq:5672/"
     ports:
       - "8000:8000"
