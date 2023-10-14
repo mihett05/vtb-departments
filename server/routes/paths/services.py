@@ -1,21 +1,32 @@
-from config import config
 from urllib.parse import urlencode
-import requests
+from aiohttp import ClientSession
+from config import config
 
 
-def create_path(start_lat: float, end_lat: float, start_lng: float, end_lng: float, profile: str) -> tuple[int, list]:
-    request_url = f"{config.open_route_service_url}/{profile}?"
+async def create_path(
+    start_lat: float,
+    end_lat: float,
+    start_lng: float,
+    end_lng: float,
+    profile: str
+) -> tuple[int, list]:
+    request_url = f"{config.OPEN_ROUTE_SERVICE_URL}/{profile}"
     params = {
-        "api_key": config.open_route_service_api_key,
+        "api_key": config.OPEN_ROUTE_SERVICE_API_KEY,
         "start": f"{start_lng},{start_lat}",
         "end": f"{end_lng},{end_lat}"
     }
 
-    url = request_url + urlencode(params)
+    url = request_url + "?" + urlencode(params)
+    async with ClientSession() as session:
+        async with session.get(url) as response:
+            print(response)
+            print(await response.text())
+            data = await response.json()
+            coords = []
+            if response.status == 200:
+                coords = data["features"][0]["geometry"]["coordinates"]
+                properties = data["features"][0]["properties"]["segments"][0]
+                distance, duration = properties["distance"], properties["duration"]
 
-    response = requests.get(url)
-    coords = []
-    if response.status_code == 200:
-        coords = response.json()["features"][0]["geometry"]["coordinates"]
-
-    return response.status_code, coords
+            return response.status, coords

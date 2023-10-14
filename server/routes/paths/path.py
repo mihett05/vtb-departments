@@ -12,7 +12,12 @@ router = APIRouter(
 
 @router.post("/get_path")
 async def get_path(body: Path):
-    status_code, coords = create_path(start_lat=body.start_latitude, start_lng=body.start_longitude,
-                                      end_lat=body.end_latitude, end_lng=body.end_longitude, profile=body.profile)
+    status_code, coords = await create_path(
+        start_lat=body.start_latitude,
+        start_lng=body.start_longitude,
+        end_lat=body.end_latitude,
+        end_lng=body.end_longitude,
+        profile=body.profile
+    )
 
     return JSONResponse(status_code=status_code, content=coords)

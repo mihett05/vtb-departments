@@ -7,7 +7,7 @@ from schemes import OfficeInfo, AtmsInfo
 
 
 def get_admin(token: Annotated[Optional[str], Header()] = None) -> bool:
-    if token != config.admin_token:
+    if token != config.ADMIN_TOKEN:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED)
     return True
 

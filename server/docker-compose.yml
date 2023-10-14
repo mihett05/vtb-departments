@@ -1,7 +1,7 @@
 version: '3'
 services:
   rabbitmq:
-    image: rabbitmq:3.12
+    image: rabbitmq:3.12-management
     ports:
       - "5672:5672"
       - "15672:15672"
@@ -9,7 +9,7 @@ services:
     image: mongo:7.0
     ports:
       - "27017:27017"
-  open_router:
+  ors:
     container_name: ors-app
     ports:
       - "8080:8080"
@@ -33,12 +33,16 @@ services:
       - "JAVA_OPTS=-Djava.awt.headless=true -server -XX:TargetSurvivorRatio=75 -XX:SurvivorRatio=64 -XX:MaxTenuringThreshold=3 -XX:+UseG1GC -XX:+ScavengeBeforeFullGC -XX:ParallelGCThreads=4 -Xms1g -Xmx2g"
       - "CATALINA_OPTS=-Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=9001 -Dcom.sun.management.jmxremote.rmi.port=9001 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Djava.rmi.server.hostname=localhost"
       - ORS_CONFIG=/home/ors/ors-conf/ors-config.json
-#  fastapi:
-#    build:
-#      context: .
-#      dockerfile: Dockerfile
-#    ports:
-#      - "80:80"
-#    depends_on:
-#      - rabbitmq
-#      - mongo
+  fastapi:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - "MONGO_URL=mongodb://mongo:27017/db"
+      - "OPEN_ROUTE_SERVICE_URL=http://ors:8080/ors/v2/directions"
+    ports:
+      - "8000:8000"
+    depends_on:
+      - rabbitmq
+      - mongo
+      - ors
