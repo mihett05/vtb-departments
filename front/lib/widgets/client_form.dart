@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 import 'package:front/models/form-data.dart';
+import 'package:intl/intl.dart';
 
 class ClientForm extends StatefulWidget {
   const ClientForm({super.key});
@@ -21,6 +22,7 @@ class _ClientFormState extends State<ClientForm> {
   List<bool> _selections = [true, false];
   List<String> _individualList = [];
   List<String> _legalList = [];
+  DateTime? _time;
 
   @override
   Widget build(BuildContext context) {
@@ -307,6 +309,51 @@ class _ClientFormState extends State<ClientForm> {
                         ),
                       ],
                     ),
+                    Row(
+                      children: [
+                        Icon(
+                          Icons.more_time_rounded,
+                          color: Theme.of(context).colorScheme.secondary,
+                          size: 35.0,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(7.0),
+                          child: GestureDetector(
+                            onTap: () async {
+                              _time =
+                                  await showDateTimePicker(context: context);
+                              setState(() {
+                                if (_time != null) {
+                                  _data.time = _time!;
+                                }
+                              });
+                            },
+                            child: _time != null
+                                ? Text(
+                                    DateFormat('yyyy-MM-dd – kk:mm')
+                                        .format(_time!),
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .labelLarge!
+                                        .copyWith(
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .primary),
+                                  )
+                                : Text(
+                                    "Выбрать время",
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .labelLarge!
+                                        .copyWith(
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .primary),
+                                  ),
+                          ),
+                        )
+                      ],
+                    ),
                   ],
                 ),
               ],
@@ -330,3 +377,72 @@ List<String> legalServices = [
   'legalService2',
   'legalService3'
 ];
+
+Future<DateTime?> showDateTimePicker({
+  required BuildContext context,
+  DateTime? initialDate,
+  DateTime? firstDate,
+  DateTime? lastDate,
+}) async {
+  initialDate ??= DateTime.now();
+  firstDate ??= initialDate.subtract(const Duration(days: 365 * 100));
+  lastDate ??= firstDate.add(const Duration(days: 365 * 200));
+
+  final DateTime? selectedDate = await showDatePicker(
+      context: context,
+      initialDate: initialDate,
+      firstDate: firstDate,
+      lastDate: lastDate,
+      builder: (context, child) {
+        return Theme(
+          data: Theme.of(context).copyWith(
+            colorScheme: ColorScheme.light(
+              primary: Theme.of(context).colorScheme.primary,
+              onSurface: Theme.of(context).colorScheme.onBackground,
+            ),
+            textButtonTheme: TextButtonThemeData(
+              style: TextButton.styleFrom(
+                textStyle: Theme.of(context).textTheme.labelLarge,
+                foregroundColor: Theme.of(context).colorScheme.primary,
+              ),
+            ),
+          ),
+          child: child!,
+        );
+      });
+
+  if (selectedDate == null) return null;
+
+  if (!context.mounted) return selectedDate;
+
+  final TimeOfDay? selectedTime = await showTimePicker(
+      context: context,
+      initialTime: TimeOfDay.fromDateTime(selectedDate),
+      builder: (context, child) {
+        return Theme(
+          data: Theme.of(context).copyWith(
+            colorScheme: ColorScheme.light(
+              primary: Theme.of(context).colorScheme.primary,
+              onSurface: Theme.of(context).colorScheme.onBackground,
+            ),
+            textButtonTheme: TextButtonThemeData(
+              style: TextButton.styleFrom(
+                textStyle: Theme.of(context).textTheme.labelLarge,
+                foregroundColor: Theme.of(context).colorScheme.primary,
+              ),
+            ),
+          ),
+          child: child!,
+        );
+      });
+
+  return selectedTime == null
+      ? null
+      : DateTime(
+          selectedDate.year,
+          selectedDate.month,
+          selectedDate.day,
+          selectedTime.hour,
+          selectedTime.minute,
+        );
+}
