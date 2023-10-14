@@ -2,7 +2,6 @@ import aio_pika
 import base64
 import json
 import traceback
-import datetime
 
 from schemes.offices import OfficeInfo, Statistics
 from .amqp import Amqp
