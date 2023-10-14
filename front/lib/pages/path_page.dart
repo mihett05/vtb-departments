@@ -31,7 +31,9 @@ class _PathPageState extends State<PathPage> {
         title: Text('Маршрут'),
       ),
       body: Stack(children: [
-        const Map(),
+        const Map(
+          offices: [],
+        ),
         Align(
           alignment: AlignmentDirectional.bottomCenter,
           child: Container(

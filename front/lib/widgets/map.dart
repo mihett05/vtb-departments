@@ -10,7 +10,9 @@ import 'package:flutter_map_cache/flutter_map_cache.dart';
 import '../models/office.dart';
 
 class Map extends StatefulWidget {
-  const Map({super.key});
+  final List<Office> offices;
+
+  const Map({super.key, required this.offices});
 
   @override
   State<Map> createState() => _MapState();
@@ -18,7 +20,6 @@ class Map extends StatefulWidget {
 
 class _MapState extends State<Map> {
   final _mapController = MapController();
-  final Future<List<Office>> _offices = getDepartments();
 
   @override
   void initState() {
@@ -66,74 +67,63 @@ class _MapState extends State<Map> {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
+    return FlutterMap(
+      mapController: _mapController,
+      options: const MapOptions(
+        initialCenter: LatLng(55.75095437308601, 37.61761841296195),
+        initialZoom: 10,
+        minZoom: 4,
+        maxZoom: 17,
+      ),
       children: [
-        FlutterMap(
-          mapController: _mapController,
-          options: const MapOptions(
-            initialCenter: LatLng(55.75095437308601, 37.61761841296195),
-            initialZoom: 10,
-            minZoom: 4,
-            maxZoom: 17,
-          ),
-          children: [
-            TileLayer(
-              urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-              userAgentPackageName: 'com.example.app',
-              retinaMode: true,
-            ),
-            FutureBuilder(
-                future: _offices,
-                builder: (context, snapshot) {
-                  if (snapshot.hasData && snapshot.data != null) {
-                    return MarkerLayer(
-                        markers: snapshot.data!
-                            .map(
-                              (e) => Marker(
-                                point: LatLng(
-                                  e.coordinates.coordinates[1],
-                                  e.coordinates.coordinates[0],
-                                ),
-                                child: GestureDetector(
-                                  onTap: () {
-                                    showModalBottomSheet(
-                                        context: context,
-                                        builder: (context) {
-                                          return DraggableScrollableSheet(
-                                            expand: false,
-                                            builder: (context, controller) {
-                                              return SingleChildScrollView(
-                                                controller: controller,
-                                                child: OfficeInfo(office: e),
-                                              );
-                                            },
-                                          );
-                                        });
-                                  },
-                                  child: const Image(
-                                    image: AssetImage(
-                                      "assets/icons/office.png",
-                                    ),
-                                  ),
-                                ),
-                                width: 80,
-                                height: 80,
-                              ),
-                            )
-                            .toList());
-                  }
-                  return const MarkerLayer(markers: []);
-                }),
-            ZoomButtons(
-              minZoom: 4,
-              maxZoom: 17,
-              mini: false,
-              padding: 10,
-              alignment: Alignment.bottomRight,
-              onCenter: () async => center(),
-            ),
-          ],
-        )
+        TileLayer(
+          urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+          userAgentPackageName: 'com.example.app',
+          retinaMode: true,
+        ),
+        MarkerLayer(
+            markers: widget.offices
+                .map(
+                  (e) => Marker(
+                    point: LatLng(
+                      e.coordinates.coordinates[1],
+                      e.coordinates.coordinates[0],
+                    ),
+                    child: GestureDetector(
+                      onTap: () {
+                        showModalBottomSheet(
+                            context: context,
+                            builder: (context) {
+                              return DraggableScrollableSheet(
+                                expand: false,
+                                builder: (context, controller) {
+                                  return SingleChildScrollView(
+                                    controller: controller,
+                                    child: OfficeInfo(office: e),
+                                  );
+                                },
+                              );
+                            });
+                      },
+                      child: const Image(
+                        image: AssetImage(
+                          "assets/icons/office.png",
+                        ),
+                      ),
+                    ),
+                    width: 80,
+                    height: 80,
+                  ),
+                )
+                .toList()),
+        ZoomButtons(
+          minZoom: 4,
+          maxZoom: 17,
+          mini: false,
+          padding: 10,
+          alignment: Alignment.bottomRight,
+          onCenter: () async => center(),
+        ),
       ],
     );
   }

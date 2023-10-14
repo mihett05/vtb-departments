@@ -140,7 +140,10 @@ class _ClientFormState extends State<ClientForm> {
                                   _data.individualServices.add(value);
                                 });
                               },
-                              items: individualServices.map((item) {
+                              items: individualServices
+                                  .where((element) =>
+                                      !_individualList.contains(element))
+                                  .map((item) {
                                 return DropdownMenuItem(
                                   value: item,
                                   child: Text(
@@ -222,7 +225,10 @@ class _ClientFormState extends State<ClientForm> {
                                   _data.legalServices.add(value);
                                 });
                               },
-                              items: legalServices.map((item) {
+                              items: legalServices
+                                  .where((element) =>
+                                      !_legalList.contains(element))
+                                  .map((item) {
                                 return DropdownMenuItem(
                                   value: item,
                                   child: Text(
