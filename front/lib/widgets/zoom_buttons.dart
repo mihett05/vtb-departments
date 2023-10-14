@@ -48,7 +48,8 @@ class ZoomButtons extends StatelessWidget {
                 }
                 MapController.of(context).move(paddedMapCamera.center, zoom);
               },
-              child: Icon(Icons.zoom_in, color: IconTheme.of(context).color),
+              child:
+                  Icon(Icons.add_rounded, color: IconTheme.of(context).color),
             ),
           ),
           Padding(
@@ -69,7 +70,8 @@ class ZoomButtons extends StatelessWidget {
                 }
                 MapController.of(context).move(paddedMapCamera.center, zoom);
               },
-              child: Icon(Icons.zoom_out, color: IconTheme.of(context).color),
+              child: Icon(Icons.remove_rounded,
+                  color: IconTheme.of(context).color),
             ),
           ),
           Padding(
@@ -83,10 +85,11 @@ class ZoomButtons extends StatelessWidget {
                   onCenter!();
                 }
               },
-              child: Icon(
-                Icons.my_location,
-                color: IconTheme.of(context).color,
-              ),
+              child: ImageIcon(AssetImage("assets/icons/gpsSolid.png")),
+              // Icon(
+              //   Icons.my_location,
+              //   color: IconTheme.of(context).color,
+              // ),
             ),
           )
         ],
