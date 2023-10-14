@@ -1,6 +1,7 @@
 import uuid
+from datetime import datetime
 
-from beanie import Document, Indexed
+from beanie import Document, Indexed, TimeSeriesConfig, Granularity, Link
 from pydantic import BaseModel, Field
 from schemes.geo_json import GeoJSON
 
@@ -10,9 +11,17 @@ class TimeOpen(BaseModel):
     hours: str
 
 
-class Statistics(BaseModel):
-    time: TimeOpen
-    percent: float
+class Statistics(Document):
+    time_series: datetime = Field(default_factory=datetime.now())
+    meta: float
+
+    class Settings:
+        timeseries = TimeSeriesConfig(
+            time_field='time_series',
+            meta_field='meta',
+            granularity=Granularity.minutes,
+            expire_after_seconds=60 * 60 * 24 * 30
+        )
 
 
 class OfficeInfo(Document):
@@ -27,4 +36,5 @@ class OfficeInfo(Document):
     open_hours_legal: list[TimeOpen]
     open_hours_individual: list[TimeOpen]
     coordinates: GeoJSON
-    statistics: list[Statistics]
+    statistics: list[Link[Statistics]]
+    max_capacity: int

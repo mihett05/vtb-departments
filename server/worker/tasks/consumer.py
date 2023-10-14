@@ -2,15 +2,19 @@ import aio_pika
 import base64
 import json
 import traceback
+import datetime
 
-from schemes.offices import OfficeInfo
+from schemes.offices import OfficeInfo, Statistics
 from .amqp import Amqp
+from worker.worker import Worker
 
 
 class Consumer(Amqp):
     async def handle(self, office: OfficeInfo, images: list[bytes]):
-        print(office)
-        pass  # TODO: что-то сделать с изображениями
+        average_count = sum(map(Worker.get_people_count, images)) / len(images)
+        statistics = Statistics(meta=average_count / office.max_capacity)
+        await statistics.create()
+        office.statistics.append(statistics)
 
     async def run(self):
         await self.connect()
