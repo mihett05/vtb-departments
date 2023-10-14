@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:front/api/client.dart';
+import 'package:front/widgets/office_info.dart';
 import 'package:front/widgets/zoom_buttons.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:flutter_map_cache/flutter_map_cache.dart';
+
+import '../models/office.dart';
 
 class Map extends StatefulWidget {
   const Map({super.key});
@@ -14,11 +18,14 @@ class Map extends StatefulWidget {
 
 class _MapState extends State<Map> {
   final _mapController = MapController();
+  final Future<List<Office>> _offices = getDepartments();
+  List<Marker> _markers = [];
 
   @override
   void initState() {
     super.initState();
     loadLocation();
+    loadDepartments();
   }
 
   void loadLocation() async {
@@ -59,6 +66,18 @@ class _MapState extends State<Map> {
     }
   }
 
+  void loadDepartments() async {
+    final offices = await getDepartments();
+    _markers = offices
+        .map((e) => Marker(
+            point: LatLng(
+                e.coordinates.coordinates[1], e.coordinates.coordinates[0]),
+            child: FlutterLogo(),
+            width: 80,
+            height: 80))
+        .toList();
+  }
+
   @override
   Widget build(BuildContext context) {
     return FlutterMap(
@@ -75,6 +94,48 @@ class _MapState extends State<Map> {
           userAgentPackageName: 'com.example.app',
           retinaMode: true,
         ),
+        FutureBuilder(
+            future: _offices,
+            builder: (context, snapshot) {
+              if (snapshot.hasData && snapshot.data != null) {
+                return MarkerLayer(
+                    markers: snapshot.data!
+                        .map(
+                          (e) => Marker(
+                            point: LatLng(
+                              e.coordinates.coordinates[1],
+                              e.coordinates.coordinates[0],
+                            ),
+                            child: GestureDetector(
+                              onTap: () {
+                                showModalBottomSheet(
+                                    context: context,
+                                    builder: (context) {
+                                      return DraggableScrollableSheet(
+                                        expand: false,
+                                        builder: (context, controller) {
+                                          return SingleChildScrollView(
+                                            controller: controller,
+                                            child: OfficeInfo(office: e),
+                                          );
+                                        },
+                                      );
+                                    });
+                              },
+                              child: const Image(
+                                image: AssetImage(
+                                  "assets/icons/office.png",
+                                ),
+                              ),
+                            ),
+                            width: 80,
+                            height: 80,
+                          ),
+                        )
+                        .toList());
+              }
+              return const MarkerLayer(markers: []);
+            }),
         ZoomButtons(
           minZoom: 4,
           maxZoom: 17,
@@ -82,7 +143,7 @@ class _MapState extends State<Map> {
           padding: 10,
           alignment: Alignment.bottomRight,
           onCenter: () async => center(),
-        )
+        ),
       ],
     );
   }

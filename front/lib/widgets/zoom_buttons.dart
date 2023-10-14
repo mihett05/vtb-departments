@@ -85,7 +85,7 @@ class ZoomButtons extends StatelessWidget {
                   onCenter!();
                 }
               },
-              child: ImageIcon(AssetImage("assets/icons/gpsSolid.png")),
+              child: const ImageIcon(AssetImage("assets/icons/gpsSolid.png")),
               // Icon(
               //   Icons.my_location,
               //   color: IconTheme.of(context).color,

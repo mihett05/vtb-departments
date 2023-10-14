@@ -1,3 +1,5 @@
+import 'package:front/models/geo_json.dart';
+
 class TimeOpen {
   final String days;
   final String hours;
@@ -5,16 +7,6 @@ class TimeOpen {
   TimeOpen({
     required this.days,
     required this.hours,
-  });
-}
-
-class GeoJSON {
-  final String type;
-  final List<double> coordinates;
-
-  GeoJSON({
-    required this.type,
-    required this.coordinates,
   });
 }
 
@@ -45,7 +37,7 @@ class Office {
     required this.coordinates,
   });
 
-  Office fromJson(Map<String, dynamic> value) {
+  static Office fromJson(Map<String, dynamic> value) {
     return Office(
       id: value["_id"],
       salePointName: value["sale_point_name"],
@@ -55,13 +47,15 @@ class Office {
       hasSuo: value["has_suo"],
       hasRamp: value["has_ramp"],
       metroStation: value["metro_station"],
-      openHoursIndividual: value["open_hours_individual"]
-          .map((e) => TimeOpen(days: e["days"], hours: e["hours"])),
-      openHoursLegal: value["open_hours_legal"]
-          .map((e) => TimeOpen(days: e["days"], hours: e["hours"])),
+      openHoursIndividual: List<TimeOpen>.from(value["open_hours_individual"]
+          .map((e) => TimeOpen(days: e["days"], hours: e["hours"]))
+          .toList()),
+      openHoursLegal: List<TimeOpen>.from(value["open_hours_legal"]
+          .map((e) => TimeOpen(days: e["days"], hours: e["hours"]))
+          .toList()),
       coordinates: GeoJSON(
         type: value["coordinates"]["type"],
-        coordinates: value["coordinates"]["coordinates"],
+        coordinates: List<double>.from(value["coordinates"]["coordinates"]),
       ),
     );
   }

@@ -25,12 +25,12 @@ class _MapPageState extends State<MapPage> {
         showUnselectedLabels: true,
         selectedItemColor: Theme.of(context).colorScheme.onSurface,
         backgroundColor: Theme.of(context).colorScheme.surface,
-        items: [
+        items: const [
           BottomNavigationBarItem(
-            label: "Route",
+            label: "Карта",
             icon: Icon(Icons.route_outlined),
           ),
-          BottomNavigationBarItem(label: "Search", icon: Icon(Icons.search))
+          BottomNavigationBarItem(label: "Поиск", icon: Icon(Icons.search))
         ],
       ),
     );

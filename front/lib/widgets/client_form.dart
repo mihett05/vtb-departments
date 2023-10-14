@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 import 'package:front/models/form-data.dart';
 import 'package:intl/intl.dart';
+import 'package:flutter/services.dart';
+
+import '../models/services.dart';
 
 class ClientForm extends StatefulWidget {
   const ClientForm({super.key});
@@ -370,13 +373,6 @@ class _ClientFormState extends State<ClientForm> {
     );
   }
 }
-
-List<String> individualServices = ['indService1', 'indService2', 'indService3'];
-List<String> legalServices = [
-  'legalService1',
-  'legalService2',
-  'legalService3'
-];
 
 Future<DateTime?> showDateTimePicker({
   required BuildContext context,
