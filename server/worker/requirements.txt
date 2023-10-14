@@ -1,1 +1,5 @@
 lwcc
+beanie
+pydantic
+pydantic-settings
+aio-pika

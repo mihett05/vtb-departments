@@ -4,3 +4,5 @@ beanie
 aiohttp
 pydantic
 pydantic-settings
+aio-pika
+python-multipart
