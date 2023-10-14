@@ -4,7 +4,7 @@ from PIL import Image
 from torchvision import transforms
 import torch
 
-from model.model import Model
+from worker.model.csr_model import Model
 
 
 class Worker:

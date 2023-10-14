@@ -11,6 +11,6 @@ router = APIRouter(
 @router.get("/")
 async def get_departments():
     return {
-        "offices": [Office(**office.model_dump()) for office in await OfficeInfo.find_all().to_list()],
+        "offices": [Office(**office.model_dump()) for office in await OfficeInfo.find(fetch_links=True).to_list()],
         "atms": await AtmsInfo.find_all().to_list(),
     }
