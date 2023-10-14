@@ -12,7 +12,7 @@ class TimeOpen(BaseModel):
 
 
 class Statistics(Document):
-    time_series: datetime = Field(default_factory=datetime.now())
+    time_series: datetime = Field(default_factory=datetime.now)
     meta: float
 
     class Settings:

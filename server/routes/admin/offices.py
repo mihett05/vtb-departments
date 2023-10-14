@@ -6,6 +6,7 @@ from .deps import get_admin, get_office
 
 from models.admin.offices import CreateOffice, UpdateOffice
 from schemes import OfficeInfo, GeoJSON
+from .services import create_initial_stats_office
 
 router = APIRouter(
     prefix="/offices",
@@ -27,7 +28,7 @@ async def create(body: CreateOffice, is_admin: Annotated[bool, Depends(get_admin
     office = OfficeInfo(**{
         **data,
         "coordinates": geo,
-        "statistics": [],
+        "statistics": await create_initial_stats_office(),
     })
     try:
         await office.create()

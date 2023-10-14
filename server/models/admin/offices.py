@@ -15,6 +15,7 @@ class CreateOffice(BaseModel):
     open_hours_individual: list[TimeOpen]
     latitude: float
     longitude: float
+    max_capacity: int
 
 
 class UpdateOffice(BaseModel):
