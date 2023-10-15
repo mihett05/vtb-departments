@@ -39,7 +39,6 @@ class _MapState extends State<Map> {
   }
 
   void center() async {
-    getDepartments();
     final permission = await Geolocator.requestPermission();
     if (permission == LocationPermission.always ||
         permission == LocationPermission.whileInUse) {

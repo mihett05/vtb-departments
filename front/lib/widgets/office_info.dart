@@ -3,6 +3,8 @@ import 'package:front/models/office.dart';
 import 'package:front/models/services.dart';
 import 'package:front/widgets/client_tab.dart';
 
+import 'bar_chart.dart';
+
 class OfficeInfo extends StatelessWidget {
   final Office office;
 
@@ -112,6 +114,10 @@ class OfficeInfo extends StatelessWidget {
               fontSize: Theme.of(context).textTheme.titleLarge?.fontSize ?? 0.0,
             ),
             textAlign: TextAlign.center,
+          ),
+          const Divider(),
+          BarChartWidget(
+            stats: office.statistics,
           ),
           const Divider(),
           Column(
