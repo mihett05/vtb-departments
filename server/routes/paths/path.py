@@ -26,7 +26,10 @@ async def get_path(body: Path):
         profile=body.profile
     )
 
-    return JSONResponse(status_code=status_code, content={"coords": coords, "meta": meta})
+    if status_code == 200:
+        return JSONResponse(status_code=status_code, content={"coords": coords, "meta": meta})
+    else:
+        return JSONResponse(status_code=status_code, content={'error': f'Map service returned {status_code}'})
 
 
 @router.post("/get_offices")
@@ -50,6 +53,7 @@ async def get_offices(body: FilteredPath):
     )
 
     closest_offices = sorted(zip(paths, offices), key=lambda x: x[0][2]['duration'])
+    closest_offices = [(path, office) for path, office in closest_offices if path[0] == 200]
 
     durations = map(itemgetter('duration'), map(itemgetter(2), map(itemgetter(0), closest_offices)))
 

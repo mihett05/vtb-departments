@@ -23,10 +23,7 @@ async def create_path(
         async with session.get(url) as response:
             data = await response.json()
             coords = []
-            meta = {
-                'distance': float('inf'),
-                'duration': float('inf')
-            }  # добавил значения по умолчанию, чтобы потом эксепшены не ловить из-за отсутствия ключей
+            meta = {}
             if response.status == 200:
                 coords = data["features"][0]["geometry"]["coordinates"]
                 properties = data["features"][0]["properties"]["segments"][0]
