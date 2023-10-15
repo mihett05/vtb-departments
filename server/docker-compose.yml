@@ -20,12 +20,7 @@ services:
 #      - "8080:8080"
 #      - "9001:9001"
 #    image: openrouteservice/openrouteservice:nightly
-#    # For versioned images see https://giscience.github.io/openrouteservice/installation/Running-with-Docker.html
 #    user: "${UID:-0}:${GID:-0}"
-#    #    build:
-#    #      context: ./
-#    #      args:
-#    #        OSM_FILE: ./ors-api/src/test/files/heidelberg.osm.gz
 #    volumes:
 #      - ./docker/graphs:/home/ors/ors-core/data/graphs
 #      - ./docker/elevation_cache:/home/ors/ors-core/data/elevation_cache
@@ -33,8 +28,6 @@ services:
 #      - ./docker/logs/tomcat:/home/ors/tomcat/logs
 #      - ./docker/conf:/home/ors/ors-conf
 #      - ./docker/data:/home/ors/ors-core/data
-#      - ./ors_config/RU.osm.pbf:/home/ors/ors-core/data/osm_file.pbf
-##      - ./ors_config/ors-config.yml:/home/ors/ors-conf/ors-config.yml
 #    environment:
 #      - BUILD_GRAPHS=False  # Forces the container to rebuild the graphs, e.g. when PBF is changed
 #      - "JAVA_OPTS=-Djava.awt.headless=true -server -XX:TargetSurvivorRatio=75 -XX:SurvivorRatio=64 -XX:MaxTenuringThreshold=3 -XX:+UseG1GC -XX:+ScavengeBeforeFullGC -XX:ParallelGCThreads=4 -Xms1g -Xmx2g"
@@ -47,6 +40,7 @@ services:
     environment:
       - "MONGO_URL=mongodb://mongo:27017/db"
       - "OPEN_ROUTE_SERVICE_URL=https://api.openrouteservice.org/v2/directions"
+#      - "OPEN_ROUTE_SERVICE_API_KEY=yor_key"
       - "RABBITMQ_URL=amqp://guest:guest@rabbitmq:5672/"
     ports:
       - "8000:8000"
