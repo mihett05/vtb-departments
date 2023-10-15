@@ -7,7 +7,7 @@ from datetime import datetime, timedelta
 
 async def create_initial_stats_office() -> list[Statistics]:
     stats = []
-    start_date = datetime.now() - timedelta(days=14)
+    start_date = datetime.now() - timedelta(days=7)
     start_date.replace(hour=0)
 
     for day in range(7):

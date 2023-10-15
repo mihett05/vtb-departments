@@ -1,4 +1,5 @@
 import 'package:front/models/geo_json.dart';
+import 'package:front/models/statistic.dart';
 
 class TimeOpen {
   final String days;
@@ -22,6 +23,7 @@ class Office {
   final List<TimeOpen> openHoursLegal;
   final List<TimeOpen> openHoursIndividual;
   final GeoJSON coordinates;
+  final List<Statistic> statistics;
 
   Office({
     required this.id,
@@ -35,6 +37,7 @@ class Office {
     required this.openHoursIndividual,
     required this.openHoursLegal,
     required this.coordinates,
+    required this.statistics,
   });
 
   static Office fromJson(Map<String, dynamic> value) {
@@ -57,6 +60,9 @@ class Office {
         type: value["coordinates"]["type"],
         coordinates: List<double>.from(value["coordinates"]["coordinates"]),
       ),
+      statistics: List<Statistic>.from(value["statistics"]
+          .map((e) => Statistic(dateTime: DateTime.parse(e["time_series"]), load: e["load"]))
+          .toList()),
     );
   }
 }
