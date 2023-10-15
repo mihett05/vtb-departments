@@ -11,7 +11,7 @@ async def create_initial_stats_office() -> list[Statistics]:
     start_date.replace(hour=0)
 
     for day in range(7):
-        for hour in range(3):
+        for hour in range(5):
             cur_date = start_date + timedelta(days=day, hours=hour)
             statistic = Statistics(time_series=cur_date, load=random.random())
             await statistic.create()

@@ -115,10 +115,15 @@ class OfficeInfo extends StatelessWidget {
             ),
             textAlign: TextAlign.center,
           ),
-          const Divider(),
-          // BarChartWidget(
-          //   stats: office.statistics,
-          // ),
+          ChartContainer(
+            title: 'stats',
+            color: Theme.of(context).colorScheme.secondary,
+            chart: BarChartWidget(
+              stats: office.statistics
+                  .where((i) => DateTime.now().weekday == i.dateTime.weekday)
+                  .toList(),
+            ),
+          ),
           const Divider(),
           Column(
             children: [
