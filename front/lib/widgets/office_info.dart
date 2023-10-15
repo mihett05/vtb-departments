@@ -116,9 +116,9 @@ class OfficeInfo extends StatelessWidget {
             textAlign: TextAlign.center,
           ),
           const Divider(),
-          BarChartWidget(
-            stats: office.statistics,
-          ),
+          // BarChartWidget(
+          //   stats: office.statistics,
+          // ),
           const Divider(),
           Column(
             children: [

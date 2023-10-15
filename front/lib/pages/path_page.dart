@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:front/api/client.dart';
 import 'package:front/models/path_to_office.dart';
+import 'package:front/widgets/bonus.dart';
 import 'package:front/widgets/map.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:latlong2/latlong.dart';
@@ -135,6 +136,31 @@ class _PathPageState extends State<PathPage> {
                             setState(() {
                               _chosenIndex = index;
                             });
+                            if (index == paths.length - 1 &&
+                                _chosenFilter == 'Расстояние') {
+                              showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return const BonusWindow(
+                                    text:
+                                        "Как клиенту ВТБ Привилегия вам доступно бесплатное такси до выбранного отделения",
+                                  );
+                                },
+                              );
+                            }
+                            if (index == 0 &&
+                                _chosenFilter == 'Расстояние' &&
+                                workloadToInt(paths[index].workload) > 0) {
+                              showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return const BonusWindow(
+                                    text:
+                                        "Как клиенту ВТБ Привилегия вам доступен бесплатный кофе, пока в отделении спадёт загруженность",
+                                  );
+                                },
+                              );
+                            }
                           },
                           child: Container(
                             padding: const EdgeInsets.fromLTRB(
