@@ -35,30 +35,23 @@ class _MapPageState extends State<MapPage> {
             return const Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                SizedBox(
-                  width: 60,
-                  height: 60,
-                  child: CircularProgressIndicator(),
+                Center(
+                  child: SizedBox(
+                    width: 60,
+                    height: 60,
+                    child: CircularProgressIndicator(),
+                  ),
                 ),
-                Padding(
-                  padding: EdgeInsets.only(top: 16),
-                  child: Text('Загрузка...'),
+                Center(
+                  child: Padding(
+                    padding: EdgeInsets.only(top: 16),
+                    child: Text('Загрузка...'),
+                  ),
                 ),
               ],
             );
           }
-          return Stack(
-            children: [
-              Map(
-                offices: snapshot.data!,
-              ),
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 48, horizontal: 16),
-                child: Search(offices: snapshot.data!),
-              ),
-            ],
-          );
+          return Map(offices: snapshot.data!, search: true);
         },
       ),
       bottomNavigationBar: BottomNavigationBar(

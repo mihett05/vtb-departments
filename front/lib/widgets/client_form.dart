@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_switch/flutter_switch.dart';
+import 'package:front/api/client.dart';
 import 'package:front/models/form_data.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/services.dart';
+import 'package:latlong2/latlong.dart';
 
+import '../models/path_to_office.dart';
 import '../models/services.dart';
 
 class ClientForm extends StatefulWidget {
@@ -26,6 +30,18 @@ class _ClientFormState extends State<ClientForm> {
   List<String> _individualList = [];
   List<String> _legalList = [];
   DateTime? _time;
+
+  Future<List<PathToOffice>?> requestOffices(FormData data) async {
+    final permission = await Geolocator.requestPermission();
+    if (permission == LocationPermission.always ||
+        permission == LocationPermission.whileInUse) {
+      final position = await Geolocator.getCurrentPosition();
+      return getOffices(
+        LatLng(position.latitude, position.longitude),
+        data.lowMobility,
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -369,8 +385,40 @@ class _ClientFormState extends State<ClientForm> {
             ),
           ),
           ElevatedButton(
-            onPressed: () {
-              Navigator.pushNamed(context, '/path', arguments: _data);
+            onPressed: () async {
+              showDialog(
+                  barrierDismissible: false,
+                  context: context,
+                  builder: (_) {
+                    return Dialog(
+                      child: SizedBox(
+                        width: 300,
+                        height: 300,
+                        child: Center(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              CircularProgressIndicator(),
+                              Text(
+                                "Загрузка",
+                                style: TextStyle(
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .onBackground,
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                    );
+                  });
+
+              final paths = await requestOffices(_data);
+              Navigator.pop(context);
+              if (paths != null) {
+                Navigator.pushNamed(context, '/path', arguments: paths);
+              }
             },
             child: const Text("Маршрут"),
           ),

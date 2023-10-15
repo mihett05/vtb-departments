@@ -3,8 +3,9 @@ import 'package:front/models/office.dart';
 
 class Search extends StatelessWidget {
   final List<Office> offices;
+  final void Function(Office) onSelected;
 
-  const Search({super.key, required this.offices});
+  const Search({super.key, required this.offices, required this.onSelected});
 
   @override
   Widget build(BuildContext context) {
@@ -16,6 +17,9 @@ class Search extends StatelessWidget {
         );
       },
       displayStringForOption: (Office office) => office.address,
+      onSelected: (Office selected) {
+        onSelected(selected);
+      },
       fieldViewBuilder: (
         context,
         textEditingController,
@@ -38,6 +42,13 @@ class Search extends StatelessWidget {
               width: 2,
             ),
           ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: const BorderRadius.all(Radius.circular(15)),
+            borderSide: BorderSide(
+              color: Theme.of(context).colorScheme.primary,
+              width: 2,
+            ),
+          ),
         ),
         style: TextStyle(
           color: Theme.of(context).colorScheme.onBackground,
@@ -49,19 +60,23 @@ class Search extends StatelessWidget {
         options,
       ) {
         return Container(
-          color: Theme.of(context).colorScheme.background,
+          decoration: BoxDecoration(
+            borderRadius: const BorderRadius.all(Radius.circular(5)),
+            color: Theme.of(context).colorScheme.background,
+          ),
           child: ListView.separated(
             itemCount: offices.length,
             separatorBuilder: (context, index) => const Divider(),
             itemBuilder: (_, index) => GestureDetector(
               onTap: () => onSelected(offices[index]),
-              child: Text(
-                offices[index].address.split(",").reversed.join(",").trim(),
-                style: TextStyle(
-                  color: Theme.of(context).colorScheme.onBackground,
-                  fontSize:
-                      Theme.of(context).textTheme.headlineSmall?.fontSize ?? 10,
-                  decoration: TextDecoration.none,
+              child: SizedBox(
+                child: Text(
+                  offices[index].address.split(",").reversed.join(",").trim(),
+                  style: TextStyle(
+                    color: Theme.of(context).colorScheme.onBackground,
+                    fontSize: 15,
+                    decoration: TextDecoration.none,
+                  ),
                 ),
               ),
             ),
